@@ -9,6 +9,9 @@ on:
       - '**.csproj'
       - '**.sln'
 
+permissions:
+    contents: write
+
 jobs:
   build:
     runs-on: windows-latest
