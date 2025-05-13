@@ -10,6 +10,8 @@ O ASFA é uma aplicação desktop desenvolvida em C# utilizando Windows Forms co
 
 O objetivo do sistema é facilitar o controle das pessoas idosas que frequentam a Associação Católica Sagrada Família, permitindo o registro de suas informações pessoais, dados de seus dependentes, e a geração de relatórios em PDF para para fins de documentação e impressão.
 
+[Baixe a versão mais recente aqui](https://github.com/LucasCoelhoSantos/ASFA/releases/latest)
+
 ## Funcionalidades
 
 - Cadastro de pessoas idosas com informações detalhadas;
@@ -46,7 +48,7 @@ O objetivo do sistema é facilitar o controle das pessoas idosas que frequentam 
   Program.cs         -> Inicialização da aplicação
   App.config         -> Configurações de conexão
   appsettings.json   -> Conection strings
-  client_secret.json -> Arquivo de configuração SUPABASE
+  client_secret.json -> Arquivo de configuração Google Cloud Console
 ```
 
 > [!IMPORTANT]  

@@ -1,13 +1,15 @@
 ﻿using ASFA.Helpers;
 using ASFA.Services;
 using System.Diagnostics;
+using System.Net.Http.Headers;
+using System.Reflection;
+using System.Text.Json;
 
 namespace ASFA;
 
 public partial class FormLogin : Form
 {
     private readonly LoginService _loginService;
-    private static readonly HttpClient httpClient = new HttpClient();
 
     public FormLogin(LoginService loginService)
     {
@@ -116,57 +118,55 @@ public partial class FormLogin : Form
 
     private async Task CheckUpdateAsync()
     {
-        // TO DO
-        try
-        {
-            // URL do version.txt no GitHub (exemplo)
-            var versionUrl = "https://raw.githubusercontent.com/usuario/repositorio/main/versin.txt";
-            var setupUrl = "https://github.com/usuario/repositorio/releases/v1.2.3/setup.exe";
+        await AtualizadorHelper.VerificarAtualizacaoAsync();
 
-            // Obter a nova versão
-            var versionString = await httpClient.GetStringAsync(versionUrl);
-            var newVersion = new Version(versionString.Trim());
-            var currentVersion = new Version(Application.ProductVersion);
+        // TO FIX armazenar versaoAtual em algum lugar
+        //var VersaoAtual1 = Assembly.GetExecutingAssembly().GetName().Version;
+        //var VersaoAtual2 = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "0.0.0";
+        
+        //string VersaoAtual = "v1.0.0";
+        //string RepoApiUrl = "https://api.github.com/repos/LucasCoelhoSantos/ASFA/releases/latest";
 
-            if (newVersion > currentVersion)
-            {
-                MessageBox.Show("Nova versão disponível! O download será iniciado.");
+        //try
+        //{
+        //    using var http = new HttpClient();
+        //    http.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("MyAppUpdater", "1.0"));
 
-                var filePath = Path.Combine(Path.GetTempPath(), "update.exe");
+        //    var json = await http.GetStringAsync(RepoApiUrl);
+        //    var release = JsonDocument.Parse(json).RootElement;
+        //    var ultimaVersao = release.GetProperty("tag_name").GetString();
 
-                using var response = await httpClient.GetAsync(setupUrl, HttpCompletionOption.ResponseHeadersRead);
-                response.EnsureSuccessStatusCode();
+        //    if (ultimaVersao != VersaoAtual)
+        //    {
+        //        var asset = release.GetProperty("assets")[0];
+        //        var nomeArquivo = asset.GetProperty("name").GetString();
+        //        var urlDownload = asset.GetProperty("browser_download_url").GetString();
 
-                var totalBytes = response.Content.Headers.ContentLength ?? -1L;
-                var canReportProgress = totalBytes != -1;
+        //        var caminhoArquivo = Path.Combine(Path.GetTempPath(), nomeArquivo);
 
-                await using var contentStream = await response.Content.ReadAsStreamAsync();
-                await using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
+        //        using var resposta = await http.GetAsync(urlDownload);
 
-                var buffer = new byte[81920];
-                long totalRead = 0L;
-                int read;
+        //        await using var fs = new FileStream(caminhoArquivo, FileMode.Create);
+        //        await resposta.Content.CopyToAsync(fs);
 
-                while ((read = await contentStream.ReadAsync(buffer.AsMemory(0, buffer.Length))) > 0)
-                {
-                    await fileStream.WriteAsync(buffer.AsMemory(0, read));
-                    totalRead += read;
+        //        Process.Start(new ProcessStartInfo
+        //        {
+        //            FileName = "msiexec",
+        //            Arguments = $"/i \"{caminhoArquivo}\" /passive",
+        //            UseShellExecute = true,
+        //            Verb = "runas"
+        //        });
 
-                    if (canReportProgress)
-                    {
-                        int progress = (int)(totalRead * 100 / totalBytes);
-                        //pbDownload.Invoke(() => pbDownload.Value = progress);
-                        //lblDownload.Invoke(() => lblDownload.Text = $"{totalRead / 1024 / 1024}MB / {totalBytes / 1024 / 1024}MB");
-                    }
-                }
-
-                Process.Start(filePath);
-                Process.GetCurrentProcess().Kill();
-            }
-        }
-        catch (Exception ex)
-        {
-            MessageBoxHelper.ShowError(ex.Message);
-        }
+        //        Environment.Exit(0);
+        //    }
+        //    else
+        //    {
+        //        MessageBoxHelper.ShowWarning("Você já está usando a versão mais recente!");
+        //    }
+        //}
+        //catch (Exception ex)
+        //{
+        //    MessageBoxHelper.ShowError(ex.Message);
+        //}
     }
 }

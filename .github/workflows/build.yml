@@ -1,0 +1,63 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**.cs'
+      - '**.csproj'
+      - '**.sln'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    env:
+      CONFIGURATION: Release
+      RUNTIME: win-x64
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Instalar .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
+
+      - name: Restaurar dependências
+        run: dotnet restore
+
+      - name: Publicar aplicação
+        run: >
+          dotnet publish -c $env:CONFIGURATION -r $env:RUNTIME
+          --self-contained true /p:PublishSingleFile=true
+          -o publish
+
+      - name: Determinar versão do projeto
+        id: version
+        run: |
+          $version = dotnet msbuild -nologo -t:GetTargetPath -v:q -p:CustomBeforeMicrosoftCommonTargets=GetVersion.targets
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+
+      - name: Criar Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: v${{ steps.version.outputs.version }}
+          files: publish/*.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Atualizar version.json
+        run: |
+          $json = @{
+            version = "v${{ steps.version.outputs.version }}"
+            url = "https://github.com/${{ github.repository }}/releases/download/v${{ steps.version.outputs.version }}/SeuApp.exe"
+          } | ConvertTo-Json
+          $json | Out-File -Encoding utf8 version.json
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add version.json
+          git commit -m "Atualizar version.json para v${{ steps.version.outputs.version }}"
+          git push

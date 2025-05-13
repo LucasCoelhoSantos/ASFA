@@ -21,4 +21,9 @@ public static class MessageBoxHelper
     {
         return MessageBox.Show(message, "Confirmação", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
     }
+
+    public static DialogResult ShowUpdateOption(string message)
+    {
+        return MessageBox.Show(message, "Atualização disponível", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+    }
 }
