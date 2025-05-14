@@ -627,7 +627,6 @@
         private Label labelNome;
         private Label labelEnderecosGerais;
         private TextBox textEndereco;
-        private TextBox textEstadoCivil;
         private TextBox textCPFouRG;
         private TextBox textNome;
         private ComboBox comboBoxEstadoCivil;
@@ -657,7 +656,6 @@
         private DataGridViewTextBoxColumn Telefone;
         private DataGridViewTextBoxColumn Endereco;
         private DataGridViewCheckBoxColumn Ativo;
-        private ProgressBar progressBar;
         private PictureBox pictureBoxCarregando;
     }
 }

@@ -1937,10 +1937,6 @@
         private System.Windows.Forms.TextBox textLogradouro;
         private System.Windows.Forms.Label labelNumero;
         private System.Windows.Forms.TextBox textNumero;
-        private System.Windows.Forms.ComboBox cbEstado;
-        private System.Windows.Forms.ComboBox cbEstadoCivil;
-        private System.Windows.Forms.ComboBox cbCidade;
-        private System.Windows.Forms.PictureBox pictureProfile;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Button ButtonAdicionaImagem;
         private System.Windows.Forms.Button ButtonRemoveImagem;
@@ -1949,7 +1945,6 @@
         private System.Windows.Forms.Label labelNaturalidade;
         private System.Windows.Forms.TextBox textNaturalidade;
         private System.Windows.Forms.ComboBox comboBoxMoradia;
-        private System.Windows.Forms.DataGridView DataGridViewDependentes;
         private System.Windows.Forms.TextBox textBairro;
         private PictureBox imagemDePerfil;
         private Label labelAguardandoBusca;
@@ -1961,12 +1956,10 @@
         private TextBox textBoxObservacao;
         private Label labelHistoricoFamiliarSocial;
         private TextBox textBoxHistoricoFamiliarSocial;
-        private DataGridViewTextBoxColumn Dificiencia;
         private DataGridView dataGridDependentes;
         private Button ButtonRemoverDependente;
         private Label labelRenda;
         private ComboBox comboBoxRenda;
-        private ComboBox comboBoxAposentadoMotivo;
         private Label labelAposentado;
         private ComboBox comboBoxAposentado;
         private ComboBox comboBoxSituacaoOcupacional;
@@ -2015,21 +2008,10 @@
         private RadioButton radioButtonSimRecursoUbs;
         private RadioButton radioButtonNaoRecursoUbs;
         private Panel panel5;
-        private RadioButton radioButton18;
-        private RadioButton radioButton17;
         private TextBox textBoxTrabalhoPastoralSocial;
         private Panel panel6;
-        private RadioButton radioButton20;
-        private RadioButton radioButton19;
-        private TextBox textBoxAtividade;
         private Panel panel7;
-        private RadioButton radioButton22;
-        private RadioButton radioButton21;
-        private TextBox textBoxOnde;
-        private TextBox textBoxTrabalhoVoluntario;
         private TextBox textBoxTrabalhoVoluntarioOnde;
-        private Label labelTrabalhoVoluntarioOnde;
-        private Label labelTrabalhoVoluntarioQual;
         private Label labelTrabalhoVoluntario;
         private RadioButton radioButtonSimTrabalhoVoluntario;
         private RadioButton radioButtonNaoTrabalhoVoluntario;
@@ -2038,7 +2020,6 @@
         private RadioButton radioButtonSimAtividade;
         private RadioButton radioButtonNaoAtividade;
         private Button ButtonEditarDependente;
-        private Button button1;
         private ComboBox comboBoxEstadoCivil;
         private ComboBox comboBoxEstado;
         private ComboBox comboBoxCidade;
@@ -2051,8 +2032,6 @@
         private Label labelQualTrabalhoVoluntario;
         private TextBox textBoxQualAtividade;
         private TextBox textBoxTrabalhoVoluntarioQual;
-        private NumericUpDown numericUpDown1;
-        private NumericUpDown textIntId;
         private DataGridViewTextBoxColumn Id;
         private DataGridViewTextBoxColumn Nome;
         private DataGridViewTextBoxColumn Parentesco;
@@ -2063,12 +2042,8 @@
         private DataGridViewTextBoxColumn Aposentado;
         private DataGridViewTextBoxColumn Deficiencia;
         private DataGridViewTextBoxColumn ProblemaDeSaude;
-        private DataGridViewTextBoxColumn ComposicaoFamiliarDependente;
         private DataGridViewTextBoxColumn ComposicaoFamiliar;
         private DataGridViewTextBoxColumn Ativo;
-        private Button buttonAnexos;
-        private Button button2;
-        private Button buttonAnex;
         private Button ButtonAnexos;
         private Label labelId;
     }

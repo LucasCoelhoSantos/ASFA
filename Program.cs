@@ -13,8 +13,6 @@ namespace ASFA;
 
 internal static class Program
 {
-    public static IMapper Mapper { get; private set; }
-
     [STAThread]
     static void Main()
     {

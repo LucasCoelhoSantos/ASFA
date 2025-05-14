@@ -375,20 +375,7 @@
 
         #endregion
 
-        private Button ButtonCancelar;
-        private Button ButtonSalvar;
-        private Label labelUrlFotoCpf;
-        private Label labelUrlRg;
-        private Label labelUrlComprovanteEndereco;
         private Label labelUrlCartaoSus;
-        private Label labelUrlCadastroNis;
-        private Label labelUrlTermoAutorizacao;
-        private Button buttonAdicionarCpf;
-        private Button buttonAdicionarRg;
-        private Button buttonAdicionarComprovanteEndereco;
-        private Button buttonAdicionarCartapSus;
-        private Button buttonAdicionarCadastroNis;
-        private Button buttonAdicionarTermoAutorizacao;
         private Label labelNomeCpf;
         private Label labelNomeRg;
         private Label labelNomeComprovanteEndereco;
@@ -406,7 +393,6 @@
         private Button ButtonAdicionarCartapSus;
         private Button ButtonAdicionarCadastroNis;
         private Button ButtonAdicionarTermoAutorizacao;
-        private LinkLabel linkLabel1;
         private Button ButtonVoltar;
         private Button ButtonRemoverCpf;
         private Button ButtonRemoverRg;

@@ -42,12 +42,15 @@ jobs:
       - name: Atualizar versão no .csproj
         run: |
           $csproj = Get-ChildItem -Path . -Filter *.csproj | Select-Object -First 1
-          $content = Get-Content $csproj.FullName
-          if ($content -notmatch '<Version>') {
-              $content = $content -replace '</PropertyGroup>', "<Version>${{ steps.version.outputs.version }}</Version>`n</PropertyGroup>"
+          $versao = "${{ steps.version.outputs.version }}"
+          $content = Get-Content $csproj.FullName -Raw
+
+          if ($content -match '<Version>.*?</Version>') {
+              $content = $content -replace '<Version>.*?</Version>', "<Version>$versao</Version>"
           } else {
-              $content = $content -replace '<Version>.*?</Version>', "<Version>${{ steps.version.outputs.version }}</Version>"
+              $content = $content -replace '</PropertyGroup>', "  <Version>$versao</Version>`n</PropertyGroup>"
           }
+
           $content | Set-Content $csproj.FullName
 
           git config user.name "github-actions"

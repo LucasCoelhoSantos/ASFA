@@ -1228,7 +1228,6 @@
 
         private DateTimePicker textDataNascimento;
         private TextBox textNome;
-        private ComboBox cbEstadoCivil;
         private TextBox textBoxTratamentoOnde;
         private Button ButtonCancelar;
         private Button ButtonSalvar;
@@ -1270,7 +1269,6 @@
         private ComboBox comboBoxSituacaoOcupacional;
         private ComboBox comboBoxNivelSerie;
         private ComboBox comboBoxCursoFormacao;
-        private ComboBox comboBoxMotivo;
         private ComboBox comboBoxRenda;
         private ComboBox comboBoxAposentadoMotivo;
         private ComboBox comboBoxDeficiencia;
@@ -1292,7 +1290,6 @@
         private Label labelProgramaPastoralQual;
         private Label labelProgramaPastoral;
         private Label labelNivelSerieAtualConcluido;
-        private Label label1Alfabetizado;
         private Label labelSituacaoOcupacional;
         private Label labelEstudaAtualmente;
         private Label labelCursoTecnicoFormacaoProfissional;

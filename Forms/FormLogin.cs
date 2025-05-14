@@ -97,8 +97,8 @@ public partial class FormLogin : Form
             MessageBoxHelper.ShowError($"Erro ao tentar redefinir a senha: {ex.Message}");
         }
 
-        string sql = "SELECT id, nome, data_nascimento FROM Pessoa";
-        /*using var cmd = new NpgsqlCommand(sql, _dbConnection);
+        /*string sql = "SELECT id, nome, data_nascimento FROM Pessoa";
+        using var cmd = new NpgsqlCommand(sql, _dbConnection);
         using var reader = cmd.ExecuteReader();
 
         while (reader.Read())
