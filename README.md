@@ -1,7 +1,7 @@
 ﻿<div align="center">
 	<img src="./Resources/asfa-logo.png" alt="ASFA" widthwidth="250" height="250" />
 	<h1>ASFA - Associação Católica Sagrada Família</h1>
-	[🇺🇸](./README.md) [🇧🇷](./README-BR.md)
+	[🇺🇸](./README-US.md)
 </div>
 
 ## Sobre o Projeto
