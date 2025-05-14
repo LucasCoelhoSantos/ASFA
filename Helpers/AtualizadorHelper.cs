@@ -19,7 +19,6 @@ public class AtualizadorHelper
 
             using var http = new HttpClient();
             var json = await http.GetStringAsync(VersionJsonUrl);
-
             var doc = JsonDocument.Parse(json);
 
             var versaoNovaStr = doc.RootElement.GetProperty("version").GetString();
@@ -32,8 +31,7 @@ public class AtualizadorHelper
             {
                 if (MessageBoxHelper.ShowUpdateOption($"Uma nova versão está disponível: {versaoNova}.\nVersão instalada: {versaoAtual}\nDeseja atualizar agora?") == DialogResult.Yes && urlDownload != null)
                 {
-                    var nomeExe = Path.GetFileName(urlDownload);
-                    var caminhoTemp = Path.Combine(Path.GetTempPath(), nomeExe);
+                    var caminhoTemp = Path.Combine(Path.GetTempPath(), Path.GetFileName(urlDownload));
 
                     using var stream = await http.GetStreamAsync(urlDownload);
                     using var fs = new FileStream(caminhoTemp, FileMode.Create);

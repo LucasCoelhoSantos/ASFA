@@ -95,7 +95,7 @@ partial class FormLogin
         // 
         // ButtonEntrar
         // 
-        ButtonEntrar.Location = new Point(183, 288);
+        ButtonEntrar.Location = new Point(130, 288);
         ButtonEntrar.Margin = new Padding(4, 3, 4, 3);
         ButtonEntrar.Name = "ButtonEntrar";
         ButtonEntrar.Size = new Size(86, 27);
@@ -106,7 +106,7 @@ partial class FormLogin
         // 
         // ButtonRegistrar
         // 
-        ButtonRegistrar.Location = new Point(183, 321);
+        ButtonRegistrar.Location = new Point(237, 288);
         ButtonRegistrar.Margin = new Padding(4, 3, 4, 3);
         ButtonRegistrar.Name = "ButtonRegistrar";
         ButtonRegistrar.Size = new Size(86, 27);
@@ -118,7 +118,7 @@ partial class FormLogin
         // ButtonEsqueciMinhaSenha
         // 
         ButtonEsqueciMinhaSenha.BackColor = Color.Transparent;
-        ButtonEsqueciMinhaSenha.Location = new Point(156, 354);
+        ButtonEsqueciMinhaSenha.Location = new Point(154, 330);
         ButtonEsqueciMinhaSenha.Name = "ButtonEsqueciMinhaSenha";
         ButtonEsqueciMinhaSenha.Size = new Size(139, 23);
         ButtonEsqueciMinhaSenha.TabIndex = 4;

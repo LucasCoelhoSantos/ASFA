@@ -66,6 +66,61 @@ jobs:
           --self-contained true /p:PublishSingleFile=true
           -o publish
 
+      - name: Criar instalador com InnoSetup
+        run: |
+          Invoke-WebRequest -Uri "https://jrsoftware.org/download.php/is.exe" -OutFile "innosetup.exe"
+          Start-Process -FilePath "innosetup.exe" -ArgumentList "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART" -Wait
+          
+          # Criar arquivo de script InnoSetup
+          $scriptContent = @"
+          #define MyAppName "${{ steps.project-info.outputs.project_name }}"
+          #define MyAppVersion "${{ steps.project-info.outputs.version }}"
+
+          [Setup]
+          AppName={#MyAppName}
+          AppVersion={#MyAppVersion}
+          AppPublisher=Lucas Coelho Santos
+          DefaultDirName={commonpf}\{#MyAppName}
+          DefaultGroupName={#MyAppName}
+          Compression=lzma2
+          SolidCompression=yes
+          OutputDir=.
+          OutputBaseFilename={#MyAppName}_Setup_{#MyAppVersion}
+          WizardStyle=modern
+
+          ; Configurações de idioma (PT-BR)
+          [Languages]
+          Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"
+          
+          [Files]
+          Source: "publish\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs
+          
+          [Icons]
+          Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppName}.exe"
+          Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppName}.exe"
+          
+          [Run]
+          Filename: "{app}\{#MyAppName}.exe"; Description: "Iniciar {#MyAppName}"; Flags: nowait postinstall
+
+          [Code]
+          function InitializeSetup(): Boolean;
+          var
+            ResultCode: Integer;
+          begin
+            // Verifica se o aplicativo está em execução e tenta fechá-lo
+            if Exec('taskkill.exe', '/F /IM {#MyAppName}.exe', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
+            begin
+              // Aguarda um momento para garantir que o processo foi encerrado
+              Sleep(1000);
+            end;
+            Result := True;
+          end;
+          "@
+          
+          Set-Content -Path "setup.iss" -Value $scriptContent
+          
+          & 'C:\Program Files (x86)\Inno Setup 6\ISCC.exe' setup.iss
+
       - name: Criar tag Git
         run: |
           git config user.name "github-actions"
@@ -78,13 +133,15 @@ jobs:
         with:
           tag_name: v${{ steps.version.outputs.version }}
           name: v${{ steps.version.outputs.version }}
-          files: publish/*.exe
+          files: publish/${{ steps.project-info.outputs.project_name }}.exe
 
       - name: Atualizar version.json no repositório
         run: |
           $json = @{
             version = "${{ steps.version.outputs.version }}"
-            url = "https://github.com/${{ github.repository }}/releases/download/v${{ steps.version.outputs.version }}/ASFA.exe"
+            url = "https://github.com/${{ github.repository }}/releases/download/v${{ steps.version.outputs.version }}/${{ steps.project-info.outputs.project_name }}.exe"
+            directUrl = "https://github.com/${{ github.repository }}/releases/download/v${{ steps.project-info.outputs.version }}/${{ steps.project-info.outputs.project_name }}.exe"
+            changelog = "Versão ${{ steps.project-info.outputs.version }} disponibilizada em $(Get-Date -Format 'dd/MM/yyyy')"
           } | ConvertTo-Json -Depth 2
           $json | Out-File -Encoding utf8 version.json
 
