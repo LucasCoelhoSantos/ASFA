@@ -1,9 +1,5 @@
 ﻿using ASFA.Helpers;
 using ASFA.Services;
-using System.Diagnostics;
-using System.Net.Http.Headers;
-using System.Reflection;
-using System.Text.Json;
 
 namespace ASFA;
 
@@ -113,60 +109,6 @@ public partial class FormLogin : Form
 
     private async void ButtonAtualizar_Click(object sender, EventArgs e)
     {
-        await CheckUpdateAsync();
-    }
-
-    private async Task CheckUpdateAsync()
-    {
         await AtualizadorHelper.VerificarAtualizacaoAsync();
-
-        // TO FIX armazenar versaoAtual em algum lugar
-        //var VersaoAtual1 = Assembly.GetExecutingAssembly().GetName().Version;
-        //var VersaoAtual2 = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "0.0.0";
-        
-        //string VersaoAtual = "v1.0.0";
-        //string RepoApiUrl = "https://api.github.com/repos/LucasCoelhoSantos/ASFA/releases/latest";
-
-        //try
-        //{
-        //    using var http = new HttpClient();
-        //    http.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("MyAppUpdater", "1.0"));
-
-        //    var json = await http.GetStringAsync(RepoApiUrl);
-        //    var release = JsonDocument.Parse(json).RootElement;
-        //    var ultimaVersao = release.GetProperty("tag_name").GetString();
-
-        //    if (ultimaVersao != VersaoAtual)
-        //    {
-        //        var asset = release.GetProperty("assets")[0];
-        //        var nomeArquivo = asset.GetProperty("name").GetString();
-        //        var urlDownload = asset.GetProperty("browser_download_url").GetString();
-
-        //        var caminhoArquivo = Path.Combine(Path.GetTempPath(), nomeArquivo);
-
-        //        using var resposta = await http.GetAsync(urlDownload);
-
-        //        await using var fs = new FileStream(caminhoArquivo, FileMode.Create);
-        //        await resposta.Content.CopyToAsync(fs);
-
-        //        Process.Start(new ProcessStartInfo
-        //        {
-        //            FileName = "msiexec",
-        //            Arguments = $"/i \"{caminhoArquivo}\" /passive",
-        //            UseShellExecute = true,
-        //            Verb = "runas"
-        //        });
-
-        //        Environment.Exit(0);
-        //    }
-        //    else
-        //    {
-        //        MessageBoxHelper.ShowWarning("Você já está usando a versão mais recente!");
-        //    }
-        //}
-        //catch (Exception ex)
-        //{
-        //    MessageBoxHelper.ShowError(ex.Message);
-        //}
     }
 }
