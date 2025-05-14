@@ -27,7 +27,7 @@ public class AtualizadorHelper
 
             if (!Version.TryParse(versaoNovaStr, out var versaoNova))
                 throw new Exception("Formato de versão inválido no version.json.");
-
+            //
             if (versaoNova != versaoAtual)
             {
                 if (MessageBoxHelper.ShowUpdateOption($"Uma nova versão está disponível: {versaoNova}.\nVersão instalada: {versaoAtual}\nDeseja atualizar agora?") == DialogResult.Yes && urlDownload != null)
