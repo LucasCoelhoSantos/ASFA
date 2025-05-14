@@ -31,17 +31,29 @@ jobs:
       - name: Restaurar dependências
         run: dotnet restore
 
+      - name: Determinar versão do projeto
+        id: version
+        run: |
+          $now = Get-Date
+          $version = "1.0.{0:yyMMdd}" -f $now
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+
+      - name: Atualizar versão no .csproj
+        run: |
+          $csproj = Get-ChildItem -Path . -Filter *.csproj | Select-Object -First 1
+          $content = Get-Content $csproj.FullName
+          if ($content -notmatch '<Version>') {
+              $content = $content -replace '</PropertyGroup>', "<Version>${{ steps.version.outputs.version }}</Version>`n</PropertyGroup>"
+          } else {
+              $content = $content -replace '<Version>.*?</Version>', "<Version>${{ steps.version.outputs.version }}</Version>"
+          }
+          $content | Set-Content $csproj.FullName
+
       - name: Publicar aplicação
         run: >
           dotnet publish -c $env:CONFIGURATION -r $env:RUNTIME
           --self-contained true /p:PublishSingleFile=true
           -o publish
-
-      - name: Determinar versão do projeto
-        id: version
-        run: |
-          $version = dotnet msbuild -nologo -t:GetTargetPath -v:q -p:CustomBeforeMicrosoftCommonTargets=GetVersion.targets
-          echo "version=$version" >> $env:GITHUB_OUTPUT
 
       - name: Criar tag Git
         run: |
@@ -50,22 +62,21 @@ jobs:
           git tag -a "v${{ steps.version.outputs.version }}" -m "Versão ${{ steps.version.outputs.version }}"
           git push origin "v${{ steps.version.outputs.version }}"
 
-      - name: Criar Release
+      - name: Criar Release no GitHub
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ steps.version.outputs.version }}
           name: v${{ steps.version.outputs.version }}
           files: publish/*.exe
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
 
-      - name: Atualizar version.json
+      - name: Atualizar version.json no repositório
         run: |
           $json = @{
-            version = "v${{ steps.version.outputs.version }}"
+            version = "${{ steps.version.outputs.version }}"
             url = "https://github.com/${{ github.repository }}/releases/download/v${{ steps.version.outputs.version }}/ASFA.exe"
-          } | ConvertTo-Json
+          } | ConvertTo-Json -Depth 2
           $json | Out-File -Encoding utf8 version.json
+
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add version.json

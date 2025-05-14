@@ -9,7 +9,7 @@
 	
 	<ApplicationIcon>Resources\asfa-app.ico</ApplicationIcon>
 
-	<Version>1.0.0</Version>
+	<Version>1.0.000000</Version>
 	<AssemblyVersion>$(Version)</AssemblyVersion>
 	<FileVersion>$(Version)</FileVersion>
 
