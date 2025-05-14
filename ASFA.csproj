@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -16,7 +16,8 @@
 	<Authors>Lucas Coelho Santos</Authors>
 	<Company>Lucas Coelho Santos</Company>
 	<Description>O ASFA é uma aplicação desktop desenvolvida em C# utilizando Windows Forms com integração ao banco de dados Supabase</Description>
-  </PropertyGroup>
+  <Version>1.0.250514</Version>
+</PropertyGroup>
 
   <ItemGroup>
     <None Remove="Reports\FichaCadastral.rdlc" />
