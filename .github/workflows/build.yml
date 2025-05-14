@@ -36,7 +36,7 @@ jobs:
         id: version
         run: |
           $now = Get-Date
-          $version = "1.0.{0:yyMMdd}" -f $now
+          $version = "1.0.{0:yy}.{0:MMdd}" -f $now
           echo "version=$version" >> $env:GITHUB_OUTPUT
 
       - name: Atualizar versão no .csproj
