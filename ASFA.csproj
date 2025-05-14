@@ -6,16 +6,13 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-	
 	<ApplicationIcon>Resources\asfa-app.ico</ApplicationIcon>
-
-	<Version>1.0.000000</Version>
-	<AssemblyVersion>$(Version)</AssemblyVersion>
-	<FileVersion>$(Version)</FileVersion>
-
 	<Authors>Lucas Coelho Santos</Authors>
 	<Company>Lucas Coelho Santos</Company>
 	<Description>O ASFA é uma aplicação desktop desenvolvida em C# utilizando Windows Forms com integração ao banco de dados Supabase</Description>
+	<Version>1.0.000000</Version>
+	<AssemblyVersion>$(Version)</AssemblyVersion>
+	<FileVersion>$(Version)</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
