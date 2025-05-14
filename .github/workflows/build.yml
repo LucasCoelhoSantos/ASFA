@@ -48,7 +48,7 @@ jobs:
           if ($content -match '<Version>.*?</Version>') {
               $content = $content -replace '<Version>.*?</Version>', "<Version>$versao</Version>"
           } else {
-              $content = $content -replace '</PropertyGroup>', "  <Version>$versao</Version>`n</PropertyGroup>"
+              $content = $content -replace '</PropertyGroup>', "	<Version>$versao</Version>`n</PropertyGroup>"
           }
 
           $content | Set-Content $csproj.FullName
