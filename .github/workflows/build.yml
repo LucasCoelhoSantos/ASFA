@@ -14,6 +14,7 @@ permissions:
 
 jobs:
   build:
+    if: "!contains(github.event.head_commit.message, 'chore: atualiza tag version do .csproj')"
     runs-on: windows-latest
     env:
       CONFIGURATION: Release
@@ -49,6 +50,12 @@ jobs:
           }
           $content | Set-Content $csproj.FullName
 
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add $csproj.FullName
+          git commit -m "chore: atualiza tag version do .csproj para v${{ steps.version.outputs.version }}"
+          git push
+
       - name: Publicar aplicação
         run: >
           dotnet publish -c $env:CONFIGURATION -r $env:RUNTIME
@@ -80,5 +87,5 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add version.json
-          git commit -m "chore: atualizar version.json para v${{ steps.version.outputs.version }}"
+          git commit -m "chore: atualiza version.json para v${{ steps.version.outputs.version }}"
           git push
