@@ -80,5 +80,5 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add version.json
-          git commit -m "Atualizar version.json para v${{ steps.version.outputs.version }}"
+          git commit -m "chore: atualizar version.json para v${{ steps.version.outputs.version }}"
           git push
