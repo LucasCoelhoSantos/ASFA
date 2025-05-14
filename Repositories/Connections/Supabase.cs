@@ -77,4 +77,10 @@ public class Supabase
             return $"Erro: {message}";
         }
     }
+
+    public void EsqueciMinhaSenha(string email)
+    {
+        // TO DO
+        throw new NotImplementedException();
+    }
 }

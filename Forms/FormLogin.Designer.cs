@@ -180,7 +180,6 @@ partial class FormLogin
     #endregion
 
     private System.Windows.Forms.Label labelLogo;
-    private System.Windows.Forms.TextBox textLogin;
     private System.Windows.Forms.TextBox textSenha;
     private System.Windows.Forms.Label labelEmail;
     private System.Windows.Forms.Label labelSenha;

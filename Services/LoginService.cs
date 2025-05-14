@@ -23,16 +23,8 @@ public class LoginService
         
     }
 
-    public async Task EsqueciMinhaSenhaAsync(string email)
+    public void EsqueciMinhaSenha(string email)
     {
-        // TO DO
-        throw new NotImplementedException();
-    }
-
-    public async Task ObterPorEmailAsync(string email)
-    {
-        // TO DO
-        throw new NotImplementedException();
-        //return await _supabase.ObterPorEmailAsync(email);
+        _supabase.EsqueciMinhaSenha(email);
     }
 }

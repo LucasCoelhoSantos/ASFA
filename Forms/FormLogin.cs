@@ -18,11 +18,7 @@ public partial class FormLogin : Form
     {
         try
         {
-            ValidacaoHelper.ValidarDadosLogin(textLogin.Text, textSenha.Text);
-
-            string senhaHash = BCrypt.Net.BCrypt.HashPassword(textSenha.Text);
-
-            string resultadoRegistro = _loginService.Registrar(textLogin.Text, senhaHash);
+            string resultadoRegistro = _loginService.Registrar(textEmail.Text, textSenha.Text);
 
             if (resultadoRegistro.Contains("Erro"))
             {
@@ -46,11 +42,9 @@ public partial class FormLogin : Form
     {
         try
         {
-            ValidacaoHelper.ValidarDadosLogin(textLogin.Text, textSenha.Text);
+            ValidacaoHelper.ValidarDadosLogin(textEmail.Text, textSenha.Text);
 
-            string senhaHash = BCrypt.Net.BCrypt.HashPassword(textSenha.Text);
-
-            string resultadoLogin = _loginService.Entrar(textLogin.Text, senhaHash);
+            string resultadoLogin = _loginService.Entrar(textEmail.Text, textSenha.Text);
 
             if (resultadoLogin.Contains("Erro"))
             {
@@ -64,7 +58,7 @@ public partial class FormLogin : Form
         catch (ArgumentException ex)
         {
             MessageBoxHelper.ShowWarning($"Entrada inválida: {ex.Message}");
-            textLogin.Clear();
+            textEmail.Clear();
             textSenha.Clear();
         }
         catch (Exception ex)
@@ -82,29 +76,17 @@ public partial class FormLogin : Form
             MessageBoxHelper.ShowWarning("Por favor, insira seu e-mail.");
             return;
         }
-        /*
-        using (var contexto = new Context())
-        {
-            //
-        }
-        */
+        
         try
         {
+            _loginService.EsqueciMinhaSenha(email);
+
             MessageBoxHelper.ShowSuccess("Um e-mail foi enviado para redefinir sua senha.");
         }
         catch (Exception ex)
         {
             MessageBoxHelper.ShowError($"Erro ao tentar redefinir a senha: {ex.Message}");
         }
-
-        /*string sql = "SELECT id, nome, data_nascimento FROM Pessoa";
-        using var cmd = new NpgsqlCommand(sql, _dbConnection);
-        using var reader = cmd.ExecuteReader();
-
-        while (reader.Read())
-        {
-            Console.WriteLine($"ID: {reader["id"]}, Nome: {reader["nome"]}, Nascimento: {reader["data_nascimento"]}");
-        }*/
     }
 
     private async void ButtonAtualizar_Click(object sender, EventArgs e)
