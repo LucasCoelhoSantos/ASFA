@@ -13,6 +13,7 @@
 	<Version>1.0.000000</Version>
 	<AssemblyVersion>$(Version)</AssemblyVersion>
 	<FileVersion>$(Version)</FileVersion>
+	<InformationalVersion>$(Version)</InformationalVersion>
 </PropertyGroup>
 
   <ItemGroup>
