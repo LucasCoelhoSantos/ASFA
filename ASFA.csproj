@@ -13,7 +13,8 @@
 	<Version>1.0.000000</Version>
 	<AssemblyVersion>$(Version)</AssemblyVersion>
 	<FileVersion>$(Version)</FileVersion>
-  </PropertyGroup>
+  <Version>1.0.250514</Version>
+</PropertyGroup>
 
   <ItemGroup>
     <None Remove="Reports\FichaCadastral.rdlc" />
