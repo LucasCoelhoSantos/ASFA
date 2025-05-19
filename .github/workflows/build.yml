@@ -66,6 +66,11 @@ jobs:
           --self-contained true /p:PublishSingleFile=true
           -o publish
 
+      - name: Instalar Inno Setup
+        run: |
+          Write-Host "Baixando InnoSetup por choco..."
+          choco install innosetup -y
+
       - name: Criar instalador com InnoSetup
         run: |
           Write-Host "Baixando InnoSetup..."
