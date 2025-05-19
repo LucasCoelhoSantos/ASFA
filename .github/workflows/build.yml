@@ -68,10 +68,13 @@ jobs:
 
       - name: Criar instalador com InnoSetup
         run: |
+          Write-Host "Baixando InnoSetup..."
           Invoke-WebRequest -Uri "https://jrsoftware.org/download.php/is.exe" -OutFile "innosetup.exe"
+          Write-Host "Instalando InnoSetup..."
           Start-Process -FilePath "innosetup.exe" -ArgumentList "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART" -Wait
+          Write-Host "InnoSetup instalado com sucesso."
           
-          # Criar arquivo de script InnoSetup
+          Write-Host "Criando script InnoSetup..."
           $scriptContent = @"
           #define MyAppName "${{ steps.project-info.outputs.project_name }}"
           #define MyAppVersion "${{ steps.project-info.outputs.version }}"
@@ -118,6 +121,7 @@ jobs:
           "@
           
           Set-Content -Path "setup.iss" -Value $scriptContent
+          Write-Host "Script InnoSetup criado com sucesso."
           
           & 'C:\Program Files (x86)\Inno Setup 6\ISCC.exe' setup.iss
 
