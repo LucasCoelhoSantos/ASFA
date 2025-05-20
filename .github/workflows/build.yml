@@ -112,15 +112,17 @@ jobs:
         with:
           tag_name: v${{ steps.version.outputs.version }}
           name: v${{ steps.version.outputs.version }}
-          files: installer\*.exe
+          files: installer/*.exe
 
       - name: Atualizar version.json no repositório
         run: |
+          $projectName = "ASFA"
+          $version = "${{ steps.version.outputs.version }}"
           $json = @{
-            version = "${{ steps.version.outputs.version }}"
-            url = "https://github.com/${{ github.repository }}/releases/download/v${{ steps.version.outputs.version }}/${{ steps.project-info.outputs.project_name }}.exe"
-            directUrl = "https://github.com/${{ github.repository }}/releases/download/v${{ steps.project-info.outputs.version }}/${{ steps.project-info.outputs.project_name }}.exe"
-            changelog = "Versão ${{ steps.project-info.outputs.version }} disponibilizada em $(Get-Date -Format 'dd/MM/yyyy')"
+            version = $version
+            url = "https://github.com/${{ github.repository }}/releases/download/v$version/${projectName}_Setup_$version.exe"
+            directUrl = "https://github.com/${{ github.repository }}/releases/download/v$version/${projectName}_Setup_$version.exe"
+            changelog = "Versão $version disponibilizada em $(Get-Date -Format 'dd/MM/yyyy')"
           } | ConvertTo-Json -Depth 2
           $json | Out-File -Encoding utf8 version.json
 
@@ -128,5 +130,5 @@ jobs:
           git config user.email "github-actions@github.com"
           git pull origin main --rebase
           git add version.json
-          git commit -m "chore: atualiza version.json para v${{ steps.version.outputs.version }}"
+          git commit -m "chore: atualiza version.json para v$version"
           git push
