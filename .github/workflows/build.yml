@@ -71,64 +71,34 @@ jobs:
           Write-Host "Baixando InnoSetup por choco..."
           choco install innosetup -y
 
-      - name: Criar instalador com InnoSetup
+      - name: Gerar script de instalação
         run: |
-          Write-Host "Baixando InnoSetup..."
-          Invoke-WebRequest -Uri "https://jrsoftware.org/download.php/is.exe" -OutFile "innosetup.exe"
-          Write-Host "Instalando InnoSetup..."
-          Start-Process -FilePath "innosetup.exe" -ArgumentList "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART" -Wait
-          Write-Host "InnoSetup instalado com sucesso."
-          
-          Write-Host "Criando script InnoSetup..."
-          $scriptContent = @"
-          #define MyAppName "${{ steps.project-info.outputs.project_name }}"
-          #define MyAppVersion "${{ steps.project-info.outputs.version }}"
-
-          [Setup]
-          AppName={#MyAppName}
-          AppVersion={#MyAppVersion}
-          AppPublisher=Lucas Coelho Santos
-          DefaultDirName={commonpf}\{#MyAppName}
-          DefaultGroupName={#MyAppName}
-          Compression=lzma2
-          SolidCompression=yes
-          OutputDir=.
-          OutputBaseFilename={#MyAppName}_Setup_{#MyAppVersion}
-          WizardStyle=modern
-
-          ; Configurações de idioma (PT-BR)
-          [Languages]
-          Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"
-          
-          [Files]
-          Source: "publish\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs
-          
-          [Icons]
-          Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppName}.exe"
-          Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppName}.exe"
-          
-          [Run]
-          Filename: "{app}\{#MyAppName}.exe"; Description: "Iniciar {#MyAppName}"; Flags: nowait postinstall
-
-          [Code]
-          function InitializeSetup(): Boolean;
-          var
-            ResultCode: Integer;
-          begin
-            // Verifica se o aplicativo está em execução e tenta fechá-lo
-            if Exec('taskkill.exe', '/F /IM {#MyAppName}.exe', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
-            begin
-              // Aguarda um momento para garantir que o processo foi encerrado
-              Sleep(1000);
-            end;
-            Result := True;
-          end;
+          $appName = "MinhaAplicacao"
+          $appVersion = "${{ steps.version.outputs.version }}"
+          $issContent = @"
+            [Setup]
+            AppName=$appName
+            AppVersion=$appVersion
+            DefaultDirName={commonpf}\$appName
+            OutputBaseFilename=${appName}_Setup_$appVersion
+            OutputDir=installer
+            Compression=lzma
+            SolidCompression=yes
+            
+            [Files]
+            Source: "publish\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs
+            
+            [Icons]
+            Name: "{commondesktop}\$appName"; Filename: "{app}\$appName.exe"
+            
+            [Run]
+            Filename: "{app}\$appName.exe"; Description: "Iniciar $appName"; Flags: nowait postinstall
           "@
-          
-          Set-Content -Path "setup.iss" -Value $scriptContent
-          Write-Host "Script InnoSetup criado com sucesso."
-          
-          & 'C:\Program Files (x86)\Inno Setup 6\ISCC.exe' setup.iss
+          Set-Content -Path "installer_script.iss" -Value $issContent
+
+      - name: Compilar instalador com Inno Setup
+        run: |
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer_script.iss
 
       - name: Criar tag Git
         run: |
@@ -142,7 +112,7 @@ jobs:
         with:
           tag_name: v${{ steps.version.outputs.version }}
           name: v${{ steps.version.outputs.version }}
-          files: publish/${{ steps.project-info.outputs.project_name }}.exe
+          files: installer\*.exe
 
       - name: Atualizar version.json no repositório
         run: |
