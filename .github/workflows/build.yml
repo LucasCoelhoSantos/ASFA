@@ -79,6 +79,11 @@ jobs:
           $exePath = Get-ChildItem -Path "publish" -Filter *.exe | Select-Object -First 1
           $exeName = $exePath.Name
 
+          if (-Not (Test-Path "publish\$exeName")) {
+            Write-Error "Erro: $exeName não encontrado na pasta publish"
+          exit 1
+          }
+
           $issContent = @"
             [Setup]
             AppName=$appName
@@ -93,10 +98,10 @@ jobs:
             Source: "publish\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs
             
             [Icons]
-            Name: "{commondesktop}\$appName"; Filename: "{app}\$exeName.exe"
+            Name: "{commondesktop}\$appName"; Filename: "{app}\$exeName"
             
             [Run]
-            Filename: "{app}\$exeName.exe"; Description: "Iniciar $appName"; Flags: nowait postinstall
+            Filename: "{app}\$exeName"; Description: "Iniciar $appName"; Flags: nowait postinstall
           "@
           Set-Content -Path "installer_script.iss" -Value $issContent
 
