@@ -75,6 +75,10 @@ jobs:
         run: |
           $appName = "ASFA"
           $appVersion = "${{ steps.version.outputs.version }}"
+
+          $exePath = Get-ChildItem -Path "publish" -Filter *.exe | Select-Object -First 1
+          $exeName = $exePath.Name
+
           $issContent = @"
             [Setup]
             AppName=$appName
@@ -89,10 +93,10 @@ jobs:
             Source: "publish\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs
             
             [Icons]
-            Name: "{commondesktop}\$appName"; Filename: "{app}\$appName.exe"
+            Name: "{commondesktop}\$appName"; Filename: "{app}\$exeName.exe"
             
             [Run]
-            Filename: "{app}\$appName.exe"; Description: "Iniciar $appName"; Flags: nowait postinstall
+            Filename: "{app}\$exeName.exe"; Description: "Iniciar $appName"; Flags: nowait postinstall
           "@
           Set-Content -Path "installer_script.iss" -Value $issContent
 

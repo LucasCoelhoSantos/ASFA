@@ -11,6 +11,7 @@
 	<Company>Lucas Coelho Santos</Company>
 	<Description>O ASFA é uma aplicação desktop desenvolvida em C# utilizando Windows Forms com integração ao banco de dados Supabase</Description>
 	<Version>1.0.25.0520</Version>
+	<AssemblyName>ASFA</AssemblyName>
 	<AssemblyVersion>$(Version)</AssemblyVersion>
 	<FileVersion>$(Version)</FileVersion>
 	<InformationalVersion>$(Version)</InformationalVersion>
