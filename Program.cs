@@ -16,44 +16,52 @@ internal static class Program
     [STAThread]
     static void Main()
     {
-        Application.EnableVisualStyles();
-        Application.SetCompatibleTextRenderingDefault(false);
-
-        // Carregar configurações do appsettings.json
-        var configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-            .Build();
-
-        // Configurar injeção de dependências
-        var services = new ServiceCollection();
-
-        // Configuração do DbContext
-        services.AddDbContext<AppDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("SupabaseConnection")));
-
-        // Registro de Repositórios, Serviços e Formulários
-        AddRepositories(services);
-        AddServices(services);
-        services.AddSingleton<IConfiguration>(configuration);
-
-        // AutoMapper
-        services.AddAutoMapper(typeof(MappingProfile));
-
-        // Registro de formulários com dependências injetadas
-        AddForms(services);
-
-        // Criar o provedor de serviços
-        var serviceProvider = services.BuildServiceProvider();
-
-        //Application.Run(serviceProvider.GetRequiredService<FormMenu>());
-        
-        // Logar antes de acessar o sistema
-        using (var formLogin = serviceProvider.GetRequiredService<FormLogin>())
+        try
         {
-            if (formLogin.ShowDialog() == DialogResult.OK)
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            // Carregar configurações do appsettings.json
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
+
+            // Configurar injeção de dependências
+            var services = new ServiceCollection();
+
+            // Configuração do DbContext
+            services.AddDbContext<AppDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("SupabaseConnection")));
+
+            // Registro de Repositórios, Serviços e Formulários
+            AddRepositories(services);
+            AddServices(services);
+            services.AddSingleton<IConfiguration>(configuration);
+
+            // AutoMapper
+            services.AddAutoMapper(typeof(MappingProfile));
+
+            // Registro de formulários com dependências injetadas
+            AddForms(services);
+
+            // Criar o provedor de serviços
+            var serviceProvider = services.BuildServiceProvider();
+
+            //Application.Run(serviceProvider.GetRequiredService<FormMenu>());
+
+            // Logar antes de acessar o sistema
+            using (var formLogin = serviceProvider.GetRequiredService<FormLogin>())
             {
-                Application.Run(serviceProvider.GetRequiredService<FormMenu>());
+                if (formLogin.ShowDialog() == DialogResult.OK)
+                {
+                    Application.Run(serviceProvider.GetRequiredService<FormMenu>());
+                }
             }
+        }
+        catch (Exception ex)
+        {
+            File.WriteAllText("erro.log", ex.ToString());
+            MessageBox.Show("Erro fatal: " + ex.Message);
         }
     }
 

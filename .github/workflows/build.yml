@@ -63,7 +63,7 @@ jobs:
       - name: Publicar aplicação
         run: >
           dotnet publish -c $env:CONFIGURATION -r $env:RUNTIME
-          --self-contained true /p:PublishSingleFile=true
+          --self-contained true /p:PublishSingleFile=true /p:PublishTrimmed=false
           -o publish
 
       - name: Instalar Inno Setup
