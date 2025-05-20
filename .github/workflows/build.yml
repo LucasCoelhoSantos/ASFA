@@ -73,7 +73,7 @@ jobs:
 
       - name: Gerar script de instalação
         run: |
-          $appName = "MinhaAplicacao"
+          $appName = "ASFA"
           $appVersion = "${{ steps.version.outputs.version }}"
           $issContent = @"
             [Setup]
